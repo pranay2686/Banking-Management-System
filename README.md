@@ -76,4 +76,12 @@ To build a **secure, reliable, and user-friendly digital banking system** that s
 - Real-world banking regulations are simplified
 - Security features are implemented at a basic academic level
 
+## MoSCoW Prioritization
+
+| Priority | Features |
+|---------|----------|
+| Must Have | User login, Account creation, Deposit money, Withdraw money |
+| Should Have | Fund transfer, Transaction history |
+| Could Have | Loan management, Reports |
+| Won’t Have | Mobile application, Advanced analytics |
 
