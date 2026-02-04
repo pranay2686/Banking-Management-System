@@ -85,3 +85,4 @@ To build a **secure, reliable, and user-friendly digital banking system** that s
 | Could Have | Loan management, Reports |
 | Won’t Have | Mobile application, Advanced analytics |
 
+
