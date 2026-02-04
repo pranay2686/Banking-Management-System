@@ -85,4 +85,38 @@ To build a **secure, reliable, and user-friendly digital banking system** that s
 | Could Have | Loan management, Reports |
 | Won’t Have | Mobile application, Advanced analytics |
 
+##  Quick Start – Local Development
 
+This project uses Docker to run the Banking Management System locally without installing dependencies manually.
+
+### Prerequisites
+- Docker Desktop installed
+- Git installed
+- Web browser (Chrome / Edge / Firefox)
+
+---
+### Steps to Run the Backend Locally
+
+**Step 1: Clone the repository**
+   ```bash
+ git clone https://github.com/pranay2686/Banking-Management-System.git
+```
+**Step 2: Navigate to the backend folder**
+```bash
+cd Banking-Management-System/backend
+```
+
+**Step 3: Build the Docker image**
+```bash
+docker build -t bms-backend .
+```
+
+**Step 4: Run the Docker container**
+```bash
+docker run -p 5000:5000 bms-backend
+```
+
+**Step 5: Open the application in your browser**
+```bash
+http://127.0.0.1:5000
+```
