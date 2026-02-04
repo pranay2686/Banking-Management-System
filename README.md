@@ -85,6 +85,22 @@ To build a **secure, reliable, and user-friendly digital banking system** that s
 | Could Have | Loan management, Reports |
 | Won’t Have | Mobile application, Advanced analytics |
 
+## Local Development Tools
+
+The following tools were used to develop and run the Banking Management System locally:
+
+- **Operating System:** Windows 10 / Windows 11  
+- **Version Control:** Git & GitHub  
+- **Containerization:** Docker Desktop  
+- **Backend Framework:** Python (Flask)  
+- **Frontend:** HTML with internal CSS  
+- **Database:** MySQL (planned / placeholder for future integration)  
+- **Code Editor:** Visual Studio Code  
+- **Terminal:** Windows Command Prompt  
+
+Docker is used to ensure a consistent local development environment without manually installing dependencies.
+
+
 ##  Quick Start – Local Development
 
 This project uses Docker to run the Banking Management System locally without installing dependencies manually.
