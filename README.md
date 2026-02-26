@@ -104,24 +104,30 @@ Docker is used to ensure a consistent local development environment without manu
 ##  Quick Start – Local Development
 
 This project uses Docker to run the Banking Management System locally without installing dependencies manually.
-
 ### Prerequisites
+
 - Docker Desktop installed
 - Git installed
 - Web browser (Chrome / Edge / Firefox)
 
----
-### Steps to Run the Backend Locally
 
-**Step 1: Clone the repository**
-   ```bash
- git clone https://github.com/pranay2686/Banking-Management-System.git
-```
-**Step 2: Navigate to the backend folder**
-```bash
+## Software Design
+
+The Banking Management System follows a modular layered architecture that separates the user interface, backend services, and database. The system is designed with high cohesion and low coupling to improve maintainability and scalability.
+
+Key design choices include role-based access control, a separate authentication module, and containerized deployment using Docker, which improve system organization, security, and ease of deployment.
+
+
+## Steps to Run the Backend Locally
+
+### Step 1: Clone the repository
+
+git clone https://github.com/pranay2686/Banking-Management-System.git
+
+
+### Step 2: Navigate to the backend folder
+
 cd Banking-Management-System/backend
-```
-
 **Step 3: Build the Docker image**
 ```bash
 docker build -t bms-backend .
