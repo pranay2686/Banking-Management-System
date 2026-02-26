@@ -111,7 +111,7 @@ This project uses Docker to run the Banking Management System locally without in
 - Web browser (Chrome / Edge / Firefox)
 
 
-## Software Design
+### Software Design
 
 The Banking Management System follows a modular layered architecture that separates the user interface, backend services, and database. The system is designed with high cohesion and low coupling to improve maintainability and scalability.
 
