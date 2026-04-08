@@ -51,14 +51,15 @@ To build a **secure, reliable, and user-friendly digital banking system** that s
 ##  Key Features / Goals
 
 - User authentication and role-based access
+- OTP based email verification via Gmail SMTP
 - Customer account management
 - Deposit and withdrawal operations
 - Fund transfer between accounts
 - Transaction history tracking
-- Loan application and management
+- Loan application and management with EMI calculator
 - Administrative monitoring and reporting
-
-
+- Role based dashboards (Admin / Staff / Customer)
+- Staff dashboard with customer and account management
 
 ##  Success Metrics
 
@@ -82,8 +83,8 @@ To build a **secure, reliable, and user-friendly digital banking system** that s
 |---------|----------|
 | Must Have | User login, Account creation, Deposit money, Withdraw money |
 | Should Have | Fund transfer, Transaction history |
-| Could Have | Loan management, Reports |
-| Won’t Have | Mobile application, Advanced analytics |
+| Could Have | Loan management, Staff dashboard, EMI calculator |
+| Won’t Have | Mobile application, Advanced analytics, Reports |
 
 ## Local Development Tools
 
@@ -93,9 +94,10 @@ The following tools were used to develop and run the Banking Management System l
 - **Version Control:** Git & GitHub  
 - **Containerization:** Docker Desktop  
 - **Backend Framework:** Python (Flask)  
-- **Frontend:** HTML with internal CSS  
-- **Database:** MySQL (planned / placeholder for future integration)  
-- **Code Editor:** Visual Studio Code  
+- **Frontend:**  HTML + CSS (Professional Banking Theme)  
+- **Database:**  MySQL 8.0 (fully integrated via Docker) 
+- **Code Editor:** Visual Studio Code
+- **Email Service:** Gmail SMTP (for OTP verification)
 - **Terminal:** Windows Command Prompt  
 
 Docker is used to ensure a consistent local development environment without manually installing dependencies.
@@ -109,7 +111,16 @@ This project uses Docker to run the Banking Management System locally without in
 - Docker Desktop installed
 - Git installed
 - Web browser (Chrome / Edge / Firefox)
+- Gmail account with App Password (for OTP)
+- Python 3.11 (inside Docker, no manual install needed)
 
+## Gmail Setup for OTP
+1. Go to https://myaccount.google.com/security
+2. Enable 2-Step Verification
+3. Go to https://myaccount.google.com/apppasswords
+4. Create app password with name BMS
+5. Copy the 16 character password
+6. Paste it in .env file as MAIL_PASSWORD
 
 ## Software Design
 
@@ -129,18 +140,45 @@ git clone https://github.com/pranay2686/Banking-Management-System.git
 
 ### Step 2: Navigate to the backend folder
 
-cd Banking-Management-System/backend
-**Step 3: Build the Docker image**
+cd Banking-Management-System
+
+**Step 3: Create a .env file in the root folder with:**
 ```bash
-docker build -t bms-backend .
+SECRET_KEY=bms_super_secret_key_2024
+FLASK_ENV=development
+DB_HOST=db
+DB_PORT=3306
+DB_NAME=bms_db
+DB_USER=bms_user
+DB_PASSWORD=bms_password123
+MAIL_USERNAME=yourgmail@gmail.com
+MAIL_PASSWORD=your16charapppassword
+MAIL_DEFAULT_SENDER=yourgmail@gmail.com
 ```
 
-**Step 4: Run the Docker container**
+**Step 4: Start the application**
 ```bash
-docker run -p 5000:5000 bms-backend
+docker-compose up --build
 ```
 
-**Step 5: Open the application in your browser**
+**Step 5: Setup the database (run once only)**
 ```bash
-http://127.0.0.1:5000
+docker exec -it bms_web flask db upgrade
 ```
+
+**Step 6: Create admin user (run once only)**
+```bash
+docker exec -it bms_web python create_admin.py
+```
+
+**Step 7: Open the application in your browser**
+```bash
+http://localhost:5000
+```
+## Default Roles
+After running create_admin.py, you can:
+- Login and register as a Customer (default role)
+- Admin can change any user's role to Staff or Admin
+- Admin Dashboard: Manage users, approve/reject loans
+- Staff Dashboard: View customers, accounts, transactions
+- Customer Dashboard: Manage accounts, deposit, withdraw, transfer, apply loans
