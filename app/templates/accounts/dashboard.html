@@ -1,0 +1,33 @@
+{% extends 'shared/base.html' %}
+{% block title %}Dashboard — BMS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>👋 Welcome, {{ current_user.full_name }}</h2>
+    <a href="{{ url_for('accounts.create_account') }}" class="btn-primary">+ New Account</a>
+</div>
+
+{% if accounts %}
+    <div class="card-grid">
+        {% for account in accounts %}
+        <div class="card">
+            <div class="card-header">
+                <span class="account-type">{{ account.account_type | capitalize }}</span>
+                <span class="account-number">{{ account.account_number }}</span>
+            </div>
+            <div class="card-balance">
+                ₹{{ "%.2f" | format(account.balance) }}
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('accounts.account_detail', account_id=account.id) }}" class="btn-secondary">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <p>You have no active accounts.</p>
+        <a href="{{ url_for('accounts.create_account') }}" class="btn-primary">Open Your First Account</a>
+    </div>
+{% endif %}
+{% endblock %}

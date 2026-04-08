@@ -1,0 +1,64 @@
+{% extends 'shared/base.html' %}
+{% block title %}Account Detail — BMS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Account — {{ account.account_number }}</h2>
+    <span class="badge">{{ account.account_type | capitalize }}</span>
+</div>
+
+<div class="info-card">
+    <div class="info-row">
+        <span>Balance</span>
+        <strong>₹{{ "%.2f" | format(account.balance) }}</strong>
+    </div>
+    <div class="info-row">
+        <span>Status</span>
+        <strong>{{ 'Active' if account.is_active else 'Inactive' }}</strong>
+    </div>
+    <div class="info-row">
+        <span>Opened On</span>
+        <strong>{{ account.created_at.strftime('%d %b %Y') }}</strong>
+    </div>
+</div>
+
+<div class="action-buttons">
+    <a href="{{ url_for('transactions.deposit') }}" class="btn-primary">Deposit</a>
+    <a href="{{ url_for('transactions.withdraw') }}" class="btn-secondary">Withdraw</a>
+    <a href="{{ url_for('transactions.transfer') }}" class="btn-secondary">Transfer</a>
+</div>
+
+<h3>Recent Transactions</h3>
+{% if transactions %}
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Balance After</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for txn in transactions %}
+        <tr>
+            <td>{{ txn.created_at.strftime('%d %b %Y %H:%M') }}</td>
+            <td>
+                <span class="badge badge-{{ txn.transaction_type }}">
+                    {{ txn.transaction_type | capitalize }}
+                </span>
+            </td>
+            <td>₹{{ "%.2f" | format(txn.amount) }}</td>
+            <td>₹{{ "%.2f" | format(txn.balance_after) }}</td>
+            <td>{{ txn.description or '—' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p class="empty-state">No transactions yet.</p>
+{% endif %}
+
+<a href="{{ url_for('accounts.dashboard') }}" class="btn-secondary" style="margin-top:1rem;">← Back</a>
+{% endblock %}

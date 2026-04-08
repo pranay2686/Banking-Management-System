@@ -1,0 +1,24 @@
+{% extends 'shared/base.html' %}
+{% block title %}Create Account — BMS{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>🏦 Open a New Account</h2>
+    <form method="POST" action="{{ url_for('accounts.create_account') }}">
+        <div class="form-group">
+            <label>Account Type</label>
+            <select name="account_type" required>
+                <option value="savings">Savings</option>
+                <option value="current">Current</option>
+                <option value="fixed">Fixed Deposit</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Initial Deposit (min ₹500)</label>
+            <input type="number" name="initial_deposit" required min="500" placeholder="500">
+        </div>
+        <button type="submit" class="btn-primary">Create Account</button>
+        <a href="{{ url_for('accounts.dashboard') }}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

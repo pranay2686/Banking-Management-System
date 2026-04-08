@@ -1,0 +1,29 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+         <a href="/">Banking Management System</a>
+    </div>
+
+    <div class="navbar-links">
+        {% if current_user.is_authenticated %}
+            {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('admin.manage_users') }}">Users</a>
+                <a href="{{ url_for('admin.manage_loans') }}">Loans</a>
+            {% else %}
+                <a href="{{ url_for('accounts.dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('accounts.create_account') }}">New Account</a>
+                <a href="{{ url_for('transactions.deposit') }}">Deposit</a>
+                <a href="{{ url_for('transactions.withdraw') }}">Withdraw</a>
+                <a href="{{ url_for('transactions.transfer') }}">Transfer</a>
+                <a href="{{ url_for('transactions.history') }}">History</a>
+                <a href="{{ url_for('loans.apply') }}">Apply Loan</a>
+                <a href="{{ url_for('loans.status') }}">Loan Status</a>
+            {% endif %}
+            <span class="navbar-user">👤 {{ current_user.full_name }}</span>
+            <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}">Login</a>
+            <a href="{{ url_for('auth.register') }}">Register</a>
+        {% endif %}
+    </div>
+</nav>

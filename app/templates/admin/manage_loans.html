@@ -1,0 +1,56 @@
+{% extends 'shared/base.html' %}
+{% block title %}Manage Loans — BMS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>💼 Manage Loan Applications</h2>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Applicant</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Tenure</th>
+            <th>EMI</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Applied On</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in loans %}
+        <tr>
+            <td>{{ loan.user.full_name }}<br><small>{{ loan.user.email }}</small></td>
+            <td>{{ loan.loan_type | capitalize }}</td>
+            <td>₹{{ "%.2f" | format(loan.amount) }}</td>
+            <td>{{ loan.tenure_months }} months</td>
+            <td>₹{{ "%.2f" | format(loan.emi) }}</td>
+            <td>{{ loan.reason or '—' }}</td>
+            <td>
+                <span class="badge badge-{{ loan.status }}">
+                    {{ loan.status | capitalize }}
+                </span>
+            </td>
+            <td>{{ loan.applied_at.strftime('%d %b %Y') }}</td>
+            <td>
+                {% if loan.status == 'pending' %}
+                <form method="POST" action="{{ url_for('admin.approve_loan', loan_id=loan.id) }}" style="display:inline;">
+                    <button type="submit" class="btn-primary">Approve</button>
+                </form>
+                <form method="POST" action="{{ url_for('admin.reject_loan', loan_id=loan.id) }}" style="display:inline;">
+                    <button type="submit" class="btn-danger">Reject</button>
+                </form>
+                {% else %}
+                    <span style="color: gray;">—</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('admin.dashboard') }}" class="btn-secondary" style="margin-top:1rem;">← Back</a>
+{% endblock %}

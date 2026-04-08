@@ -1,0 +1,49 @@
+{% extends 'shared/base.html' %}
+{% block title %}Loan Status — BMS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>📋 My Loan Applications</h2>
+    <a href="{{ url_for('loans.apply') }}" class="btn-primary">+ Apply New Loan</a>
+</div>
+
+{% if loans %}
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Tenure</th>
+            <th>EMI</th>
+            <th>Interest Rate</th>
+            <th>Status</th>
+            <th>Applied On</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in loans %}
+        <tr>
+            <td>{{ loan.loan_type | capitalize }}</td>
+            <td>₹{{ "%.2f" | format(loan.amount) }}</td>
+            <td>{{ loan.tenure_months }} months</td>
+            <td>₹{{ "%.2f" | format(loan.emi) }}</td>
+            <td>{{ loan.interest_rate }}%</td>
+            <td>
+                <span class="badge badge-{{ loan.status }}">
+                    {{ loan.status | capitalize }}
+                </span>
+            </td>
+            <td>{{ loan.applied_at.strftime('%d %b %Y') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <div class="empty-state">
+        <p>You have no loan applications yet.</p>
+        <a href="{{ url_for('loans.apply') }}" class="btn-primary">Apply for a Loan</a>
+    </div>
+{% endif %}
+
+<a href="{{ url_for('accounts.dashboard') }}" class="btn-secondary" style="margin-top:1rem;">← Back</a>
+{% endblock %}

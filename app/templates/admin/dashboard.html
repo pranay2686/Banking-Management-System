@@ -1,0 +1,101 @@
+{% extends 'shared/base.html' %}
+{% block title %}Admin Dashboard — BMS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>⚙️ Admin Dashboard</h2>
+    <span class="badge">{{ current_user.full_name }}</span>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_users }}</div>
+        <div class="stat-label">Total Users</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_accounts }}</div>
+        <div class="stat-label">Total Accounts</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_transactions }}</div>
+        <div class="stat-label">Total Transactions</div>
+    </div>
+    <div class="stat-card highlight">
+        <div class="stat-number">{{ pending_loans }}</div>
+        <div class="stat-label">Pending Loans</div>
+    </div>
+</div>
+
+<!-- Recent Users -->
+<div class="section">
+    <div class="section-header">
+        <h3>Recent Users</h3>
+        <a href="{{ url_for('admin.manage_users') }}" class="btn-secondary">View All</a>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Joined</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in recent_users %}
+            <tr>
+                <td>{{ user.full_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td><span class="badge">{{ user.role | capitalize }}</span></td>
+                <td>
+                    <span class="badge badge-{{ 'success' if user.is_active else 'danger' }}">
+                        {{ 'Active' if user.is_active else 'Inactive' }}
+                    </span>
+                </td>
+                <td>{{ user.created_at.strftime('%d %b %Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Recent Loans -->
+<div class="section">
+    <div class="section-header">
+        <h3>Recent Loan Applications</h3>
+        <a href="{{ url_for('admin.manage_loans') }}" class="btn-secondary">View All</a>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Applicant</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>EMI</th>
+                <th>Status</th>
+                <th>Applied On</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in recent_loans %}
+            <tr>
+                <td>{{ loan.user.full_name }}</td>
+                <td>{{ loan.loan_type | capitalize }}</td>
+                <td>₹{{ "%.2f" | format(loan.amount) }}</td>
+                <td>₹{{ "%.2f" | format(loan.emi) }}</td>
+                <td>
+                    <span class="badge badge-{{ loan.status }}">
+                        {{ loan.status | capitalize }}
+                    </span>
+                </td>
+                <td>{{ loan.applied_at.strftime('%d %b %Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

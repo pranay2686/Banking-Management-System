@@ -1,0 +1,60 @@
+{% extends 'shared/base.html' %}
+{% block title %}Manage Users — BMS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>👥 Manage Users</h2>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Joined</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>
+                <!-- Change Role -->
+                <form method="POST" action="{{ url_for('admin.change_role', user_id=user.id) }}" style="display:inline;">
+                    <select name="role" onchange="this.form.submit()" {% if user.role == 'admin' %}disabled{% endif %}>
+                        <option value="customer" {% if user.role == 'customer' %}selected{% endif %}>Customer</option>
+                        <option value="staff"    {% if user.role == 'staff'    %}selected{% endif %}>Staff</option>
+                        <option value="admin"    {% if user.role == 'admin'    %}selected{% endif %}>Admin</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                <span class="badge badge-{{ 'success' if user.is_active else 'danger' }}">
+                    {{ 'Active' if user.is_active else 'Inactive' }}
+                </span>
+            </td>
+            <td>{{ user.created_at.strftime('%d %b %Y') }}</td>
+            <td>
+                {% if user.role != 'admin' %}
+                <form method="POST" action="{{ url_for('admin.toggle_user', user_id=user.id) }}" style="display:inline;">
+                    <button type="submit" class="btn-{{ 'danger' if user.is_active else 'primary' }}">
+                        {{ 'Deactivate' if user.is_active else 'Activate' }}
+                    </button>
+                </form>
+                {% else %}
+                    <span style="color: gray;">—</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('admin.dashboard') }}" class="btn-secondary" style="margin-top:1rem;">← Back</a>
+{% endblock %}
