@@ -130,7 +130,7 @@ Key design choices include role-based access control, a separate authentication 
 
 ### Architecture Diagram
 
-![Architecture](Diagrams/architecture.png)
+![Architecture](Diagrams/architecture1.png)
 ## Steps to Run the Backend Locally
 
 ### Step 1: Clone the repository
